@@ -88,33 +88,33 @@ DATABASES = {
     }
 }
 
-# DATABASE_URL = config("DATABASE_URL", cast=str)
-# CONN_MAX_AGE = config("CONN_MAX_AGE", cast=int)
+DATABASE_URL = config("DATABASE_URL", cast=str)
+CONN_MAX_AGE = config("CONN_MAX_AGE", cast=int, default=30)
 
-# if DATABASE_URL is not None:
-#     import dj_database_url
+if DATABASE_URL is not None:
+    import dj_database_url
 
-#     DATABASES = {
-#         "default": dj_database_url.config(
-#             default=DATABASE_URL,
-#             conn_max_age=CONN_MAX_AGE,
-#             conn_health_checks=True,
-#         )
-#     }
-
-
-tmpPostgres = urlparse(config("DATABASE_URL"))
-
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": tmpPostgres.path.replace("/", ""),
-        "USER": tmpPostgres.username,
-        "PASSWORD": tmpPostgres.password,
-        "HOST": tmpPostgres.hostname,
-        "PORT": 5432,
+    DATABASES = {
+        "default": dj_database_url.config(
+            default=DATABASE_URL,
+            conn_max_age=CONN_MAX_AGE,
+            conn_health_checks=True,
+        )
     }
-}
+
+
+# tmpPostgres = urlparse(config("DATABASE_URL"))
+
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql",
+#         "NAME": tmpPostgres.path.replace("/", ""),
+#         "USER": tmpPostgres.username,
+#         "PASSWORD": tmpPostgres.password,
+#         "HOST": tmpPostgres.hostname,
+#         "PORT": 5432,
+#     }
+# }
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
